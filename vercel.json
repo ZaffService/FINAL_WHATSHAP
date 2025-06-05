@@ -1,5 +1,14 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "https://whatshap-backend.onrender.com"
+  },
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "vite",
