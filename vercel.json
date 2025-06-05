@@ -2,6 +2,7 @@
   "version": 2,
   "framework": "vite",
   "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "outputDirectory": "dist",
   "env": {
     "VITE_API_URL": "https://whatshap-backend.onrender.com"
