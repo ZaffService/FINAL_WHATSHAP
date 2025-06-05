@@ -18,16 +18,42 @@ function checkSession() {
   return null
 }
 
-export function getCurrentUser() {
+// export function getCurrentUser() {
+// const API_URL = "https://whatshap-backend.onrender.com";
+//   try {
+//     const userStr = localStorage.getItem('user');
+//     if (!userStr) return null;
+//     return JSON.parse(userStr);
+// } catch (error) {
+//     console.error("Erreur lors de la récupération de l'utilisateur:", error);
+//     return null;
+// }
+// }
+
+const API_URL = "https://whatshap-backend.onrender.com";
+
+export async function getCurrentUser() {
   try {
-    const userStr = localStorage.getItem('user');
-    if (!userStr) return null;
-    return JSON.parse(userStr);
-} catch (error) {
+    const response = await fetch(`${API_URL}/currentUser`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
     console.error("Erreur lors de la récupération de l'utilisateur:", error);
     return null;
+  }
 }
-}
+
 
 export function loginUser(userData) {
     try {
