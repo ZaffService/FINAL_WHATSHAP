@@ -1,25 +1,23 @@
-const API_URL = "http://localhost:5001"
+const API_URL = import.meta.env.VITE_API_URL || "https://whatshap-backend.onrender.com";
 
 export async function getChats() {
   try {
     const response = await fetch(`${API_URL}/chats`, {
       method: "GET",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-    })
-
+      mode: "cors"
+    });
+    
     if (!response.ok) {
-      throw new Error(`Erreur HTTP: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    const data = await response.json()
-    console.log("Chats récupérés:", data)
-    return data
+    
+    return await response.json();
   } catch (error) {
-    console.error("Erreur getChats:", error)
-    throw error
+    console.error("Erreur getChats:", error);
+    throw error;
   }
 }
 

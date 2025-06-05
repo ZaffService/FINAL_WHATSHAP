@@ -19,8 +19,32 @@ function checkSession() {
 }
 
 export function getCurrentUser() {
-  return currentUser || checkSession()
+  try {
+    const userStr = localStorage.getItem('user');
+    if (!userStr) return null;
+    return JSON.parse(userStr);
+} catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur:", error);
+    return null;
 }
+}
+
+export function loginUser(userData) {
+    try {
+        localStorage.setItem('user', JSON.stringify(userData));
+        return true;
+    } catch (error) {
+        console.error("Erreur lors de la connexion:", error);
+        return false;
+    }
+}
+
+// Test de connexion avec un utilisateur par défaut
+loginUser({
+    id: 1,
+    name: "Utilisateur Test",
+    email: "test@example.com"
+});
 
 export function setCurrentUser(user) {
   currentUser = user
