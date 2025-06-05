@@ -34,10 +34,16 @@ const API_URL = "https://whatshap-backend.onrender.com";
 
 export async function getCurrentUser() {
   try {
-    const response = await fetch(`${API_URL}/currentUser`, {
+    // D'abord, vérifions le localStorage
+    const userStr = localStorage.getItem('user');
+    if (!userStr) return null;
+    
+    const user = JSON.parse(userStr);
+    
+    // Vérifions si l'utilisateur existe dans la base de données
+    const response = await fetch(`${API_URL}/chats/${user.id}`, {
       method: "GET",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
     });
@@ -46,8 +52,9 @@ export async function getCurrentUser() {
       throw new Error(`Erreur HTTP: ${response.status}`);
     }
 
-    const user = await response.json();
-    return user;
+    const userData = await response.json();
+    return userData;
+    
   } catch (error) {
     console.error("Erreur lors de la récupération de l'utilisateur:", error);
     return null;
